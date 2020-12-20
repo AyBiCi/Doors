@@ -1,3 +1,4 @@
+<b> The plugin is not ready yet! </b>
 # Doors
 Bukkit plugin for teleportable doors.
 
