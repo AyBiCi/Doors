@@ -1,3 +1,5 @@
+package main;
+
 import org.bukkit.Location;
 
 public class Door {

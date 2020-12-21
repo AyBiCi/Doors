@@ -1,3 +1,5 @@
+package main;
+
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class Doors {
 
         @Override
         public String getMessage(){
-            return "Door with name \""+doorName+"\" already exists!";
+            return "main.Door with name \""+doorName+"\" already exists!";
         }
     }
 
@@ -60,7 +62,7 @@ public class Doors {
 
         @Override
         public String getMessage(){
-            return "Door with name \""+doorName+"\" doesn't exist!";
+            return "main.Door with name \""+doorName+"\" doesn't exist!";
         }
     }
 }
