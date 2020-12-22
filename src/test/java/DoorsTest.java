@@ -1,3 +1,5 @@
+import main.Door;
+import main.Doors;
 import org.bukkit.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -126,6 +128,6 @@ public class DoorsTest {
     @Test
     public void checkDoorWithThatNameDoesntExistMessage(){
         Doors.DoorWithThatNameDoesntExist t = new Doors.DoorWithThatNameDoesntExist("name");
-        assertEquals("Door with name \"name\" doesn't exist!", t.getMessage());
+        assertEquals("main.Door with name \"name\" doesn't exist!", t.getMessage());
     }
 }
