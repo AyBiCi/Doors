@@ -1,0 +1,7 @@
+name: DoorTeleport
+main: main.DoorsPlugin
+version: 1.15.2
+api-version: 1.15
+commands:
+  dtp:
+    description: Standard plugin command.
