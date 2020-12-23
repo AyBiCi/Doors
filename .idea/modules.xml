@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Doors.iml" filepath="$PROJECT_DIR$/.idea/Doors.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SubcommandExecutor/SubcommandExecutor.iml" filepath="$PROJECT_DIR$/../SubcommandExecutor/SubcommandExecutor.iml" />
     </modules>
   </component>
 </project>
