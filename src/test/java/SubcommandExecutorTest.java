@@ -2,12 +2,13 @@ import cli.SubcommandExecutor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CliTest {
+public class SubcommandExecutorTest {
 
     SubcommandExecutor executor;
 
@@ -86,6 +87,20 @@ public class CliTest {
 
         assertEquals(name,exception.getSubcommandName());
         assertEquals("No executor for subcommand \""+name+"\"!", exception.getMessage());
+    }
+
+    @Test
+    public void testStandardCommand(){
+        final String[] testString = new String[1];
+        executor.setDefaultExecutor(new CommandExecutor() {
+            @Override
+            public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+                testString[0] = "lol";
+                return false;
+            }
+        });
+        executor.onCommand(null, null, null, new String[]{});
+        assertEquals("lol", testString[0]);
     }
 
 
