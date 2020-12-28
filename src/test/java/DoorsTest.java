@@ -19,7 +19,7 @@ public class DoorsTest {
 
     @Test
     public void addNewTeleportTest(){
-        doors.addDoor("newDoor", new Location(null, 0,0,0));
+        doors.addDoor( new Door("newDoor", new Location(null, 0,0,0)) );
 
         Door door = doors.getDoor("newDoor");
 
@@ -28,8 +28,8 @@ public class DoorsTest {
 
     @Test
     public void addTwoTeleportsTest(){
-        doors.addDoor("newDoor", null);
-        doors.addDoor("newDoor2", null);
+        doors.addDoor(new Door("newDoor", null));
+        doors.addDoor(new Door("newDoor2", null));
 
         assertEquals("newDoor",doors.getDoor("newDoor").getName());
         assertEquals("newDoor2",doors.getDoor("newDoor2").getName());
@@ -38,15 +38,15 @@ public class DoorsTest {
     @Test
     public void checkCountOfDoorsWhenAdding(){
         assertEquals(0,doors.getCount());
-        doors.addDoor("newDoor", null);
+        doors.addDoor(new Door("newDoor", null));
         assertEquals(1,doors.getCount());
     }
 
     @Test
     public void checkCountOfDoorsWhenAddingAndRemoving(){
-        doors.addDoor("newDoor1", null);
-        doors.addDoor("newDoor2", null);
-        doors.addDoor("newDoor3", null);
+        doors.addDoor(new Door("newDoor1", null));
+        doors.addDoor(new Door("newDoor2", null));
+        doors.addDoor(new Door("newDoor3", null));
 
         assertEquals(3,doors.getCount());
 
@@ -64,14 +64,14 @@ public class DoorsTest {
 
     public void createRedundantNamesProblem(String name){
         assertThrows(Doors.DoorWithThatNameAlreadyExists.class, () -> {
-            doors.addDoor(name, null);
-            doors.addDoor(name, null);
+            doors.addDoor(new Door(name, null));
+            doors.addDoor(new Door(name, null));
         });
     }
 
     @Test
     public void checkDoorList(){
-        doors.addDoor("newDoor1", null);
+        doors.addDoor(new Door("newDoor1", null));
         ArrayList<Door> doorsList = doors.getDoorList();
         assertEquals(1, doorsList.size());
         assertEquals("newDoor1", doorsList.get(0).getName());
@@ -85,7 +85,7 @@ public class DoorsTest {
         testNames.add("SADFGKJh");
 
         for(String name : testNames) {
-            doors.addDoor(name, null);
+            doors.addDoor(new Door(name, null));
         }
 
         ArrayList<Door> doorsList = doors.getDoorList();
@@ -120,7 +120,7 @@ public class DoorsTest {
     }
 
     public void addDoorAndTestLocation(String name, Location location){
-        doors.addDoor(name, location);
+        doors.addDoor(new Door(name, location));
         Door door = doors.getDoor(name);
         assertEquals(location, door.getLocation());
     }

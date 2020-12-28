@@ -13,9 +13,9 @@ public class Doors {
         doorsByName = new HashMap<>();
     }
 
-    public void addDoor(String name, Location location) {
-        if(doorsByName.containsKey(name)) throw new DoorWithThatNameAlreadyExists(name);
-        doorsByName.put(name, new Door(name, location));
+    public void addDoor(Door door) {
+        if(doorsByName.containsKey(door.getName())) throw new DoorWithThatNameAlreadyExists(door.getName());
+        doorsByName.put(door.getName(), door);
     }
 
     public void checkDoorExistanceAndThrowIfNotExists(String name){
