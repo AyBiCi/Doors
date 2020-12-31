@@ -1,14 +1,18 @@
 package main;
 
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Doors {
 
     public final HashMap<String, Door> doorsByName;
-
+    public final HashMap<String, Door> doorsByLocationString = new HashMap<>();
     public Doors(){
         doorsByName = new HashMap<>();
     }
@@ -16,6 +20,9 @@ public class Doors {
     public void addDoor(Door door) {
         if(doorsByName.containsKey(door.getName())) throw new DoorWithThatNameAlreadyExists(door.getName());
         doorsByName.put(door.getName(), door);
+
+        doorsByLocationString.put(stringifyLocation(door.getLocation()),door);
+        doorsByLocationString.put(stringifyLocation(door.getLocation().clone().add(new Vector(0,1,0))),door);
     }
 
     public void checkDoorExistanceAndThrowIfNotExists(String name){
@@ -37,7 +44,20 @@ public class Doors {
     }
 
     public ArrayList<Door> getDoorList() {
-        return new ArrayList<>(doorsByName.values());
+        ArrayList<Door> d = new ArrayList<Door>(doorsByName.values());
+        Collections.sort(d);
+        return d;
+    }
+
+    public Door getDoor(Location doorLocation) {
+        String doorString = stringifyLocation(doorLocation);
+        if(doorsByLocationString.containsKey(doorString) == false)
+            throw new DoorWithThatLocationDoesntExist(doorLocation);
+        return doorsByLocationString.get(doorString);
+    }
+
+    private String stringifyLocation(final Location location){
+        return location.getWorld().getName()+"|"+location.getBlockX()+"|"+location.getBlockY()+"|"+location.getBlockZ();
     }
 
     public static class DoorWithThatNameAlreadyExists extends RuntimeException{
@@ -49,7 +69,7 @@ public class Doors {
 
         @Override
         public String getMessage(){
-            return "main.Door with name \""+doorName+"\" already exists!";
+            return "Door with name \""+doorName+"\" already exists!";
         }
     }
 
@@ -62,7 +82,20 @@ public class Doors {
 
         @Override
         public String getMessage(){
-            return "main.Door with name \""+doorName+"\" doesn't exist!";
+            return "Door with name \""+doorName+"\" doesn't exist!";
+        }
+    }
+
+    public static class DoorWithThatLocationDoesntExist extends RuntimeException{
+        Location location;
+
+        public DoorWithThatLocationDoesntExist(Location location){
+            this.location = location;
+        }
+
+        @Override
+        public String getMessage(){
+            return "There's no door on this location!";
         }
     }
 }

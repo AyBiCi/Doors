@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Doors" />
-        <module name="SubcommandExecutor" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">

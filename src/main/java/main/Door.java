@@ -2,7 +2,7 @@ package main;
 
 import org.bukkit.Location;
 
-public class Door {
+public class Door implements Comparable<Door>{
     private String name;
     private Location location;
 
@@ -17,5 +17,10 @@ public class Door {
 
     public Location getLocation() {
         return location.clone();
+    }
+
+    @Override
+    public int compareTo(Door door) {
+        return getName().compareTo(door.getName());
     }
 }
