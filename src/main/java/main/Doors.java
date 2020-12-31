@@ -5,9 +5,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class Doors {
 
@@ -44,7 +42,7 @@ public class Doors {
     }
 
     public ArrayList<Door> getDoorList() {
-        ArrayList<Door> d = new ArrayList<Door>(doorsByName.values());
+        ArrayList<Door> d = new ArrayList<>(doorsByName.values());
         Collections.sort(d);
         return d;
     }
@@ -52,7 +50,7 @@ public class Doors {
     public Door getDoor(Location doorLocation) {
         String doorString = stringifyLocation(doorLocation);
         if(doorsByLocationString.containsKey(doorString) == false)
-            throw new DoorWithThatLocationDoesntExist(doorLocation);
+            throw new DoorWithThatLocationDoesntExist();
         return doorsByLocationString.get(doorString);
     }
 
@@ -87,12 +85,6 @@ public class Doors {
     }
 
     public static class DoorWithThatLocationDoesntExist extends RuntimeException{
-        Location location;
-
-        public DoorWithThatLocationDoesntExist(Location location){
-            this.location = location;
-        }
-
         @Override
         public String getMessage(){
             return "There's no door on this location!";

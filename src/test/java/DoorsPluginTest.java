@@ -2,8 +2,15 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import main.DoorsPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DoorsPluginTest {
     //MockBukkit mocking
-    DoorsPlugin plugin;
     ServerMock server;
     PlayerMock player;
     World world;
@@ -24,7 +30,7 @@ public class DoorsPluginTest {
     public void setUp()
     {
         server = MockBukkit.mock();
-        plugin = (DoorsPlugin) MockBukkit.load(DoorsPlugin.class);
+        MockBukkit.load(DoorsPlugin.class);
         world = server.addSimpleWorld("world");
         player = server.addPlayer();
     }
@@ -110,7 +116,82 @@ public class DoorsPluginTest {
         assertEquals("Door with name \"mark\" doesn't exist!", player.nextMessage());
     }
 
-    public void createRedundantNamesProblem(String name){
+    @Test
+    public void testOnPlayerClicksDoors(){
+        rightClick(fLoc(1));
+        assertEquals("There's no door on this location!", player.nextMessage());
+    }
+
+    @Test
+    public void createTwoDoorsAndClickOnFirstOnes(){
+        createDoor("door1", fLoc(1));
+        createDoor("door2", fLoc(2));
+        clearPlayerMessages();
+        rightClick(fLoc(1));
+        assertEquals("Doors doesn't go anywhere!", player.nextMessage());
+    }
+    @Test
+    public void createTwoDoorsCombineThemAndClickOnFirstOnes(){
+        Location firstDoor = new Location(world, -200, 5, 0);
+        placeDoor(firstDoor);
+        createDoor("door1", firstDoor);
+
+        Location secondDoor = new Location(world, 200, 5, 0);
+        placeDoor(secondDoor);
+        createDoor("door2", secondDoor);
+
+        player.performCommand("dtp combine door1 door2");
+        assertEquals("Doors \"door1\" and \"door2\" combined!", player.nextMessage());
+
+        //We click first doors
+        rightClick(firstDoor);
+        player.assertTeleported(secondDoor, 2);
+    }
+
+    @Test
+    public void testCombineMethodWithBadNames(){
+        player.performCommand("dtp combine no yes");
+        assertEquals("Door with name \"no\" doesn't exist!", player.nextMessage());
+
+        player.performCommand("dtp create no");
+        clearPlayerMessages();
+
+        player.performCommand("dtp combine no yes");
+        assertEquals("Door with name \"yes\" doesn't exist!", player.nextMessage());
+
+        player.performCommand("dtp combine no no");
+        assertEquals("Cannot combine doors with themselves!", player.nextMessage());
+
+        player.performCommand("dtp create yes");
+        clearPlayerMessages();
+
+        player.performCommand("dtp combine no yes");
+        assertEquals("Doors \"no\" and \"yes\" combined!", player.nextMessage());
+    }
+
+
+    private void rightClick(Location location){
+        Block block = world.getBlockAt(location);
+        block.setType(Material.IRON_DOOR);
+
+        PlayerInteractEvent event =
+                new PlayerInteractEvent(
+                        player,
+                        Action.RIGHT_CLICK_BLOCK,
+                        new ItemStack(Material.IRON_DOOR),
+                        block,
+                        BlockFace.NORTH
+                );
+
+        Bukkit.getPluginManager().callEvent(event);
+    }
+
+    private void placeDoor(Location location){
+        world.getBlockAt(location).setType(Material.IRON_DOOR);
+        world.getBlockAt(location.clone().add(0,1,0)).setType(Material.IRON_DOOR);
+    }
+
+    private void createRedundantNamesProblem(String name){
             player.performCommand("dtp create "+name);
             clearPlayerMessages();
             player.performCommand("dtp create "+name);
@@ -118,30 +199,30 @@ public class DoorsPluginTest {
     }
 
 
-    public Location fLoc(int number){
+    private Location fLoc(int number){
         return new Location(world, number, 1,1);
     }
 
-    public String createDoor(String name, Location location){
+    private void createDoor(String name, Location location){
         player.setLocation(location);
         player.performCommand("dtp create "+name);
-        return player.nextMessage();
+        player.nextMessage();
     }
 
-    public String removeDoor(String name){
+    private void removeDoor(String name){
         player.performCommand("dtp remove "+name);
-        return player.nextMessage();
+        player.nextMessage();
     }
 
-    public int getDoorCount(){
+    private int getDoorCount(){
         player.performCommand("dtp list");
         int count = readDoorCountFromMessage(player.nextMessage());
         clearPlayerMessages();
         return count;
     }
 
-    private static Pattern doorCountPattern = Pattern.compile("[0-9]+");
-    public int readDoorCountFromMessage(String message){
+    private static final Pattern doorCountPattern = Pattern.compile("[0-9]+");
+    private int readDoorCountFromMessage(String message){
         Matcher matcher = doorCountPattern.matcher(message);
         matcher.find();
         return Integer.parseInt(matcher.group());

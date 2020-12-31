@@ -85,6 +85,37 @@ public class Cli {
                 }
         ));
 
+        executor.addCommandExecutor(new Subcommand(
+                "combine",
+                "<name1> <name2>",
+                "combine doors by name",
+                (commandSender, command, s, args) -> {
+                    Door door1,door2;
+
+                    try{
+                        door1 = DoorsPlugin.getInstance().getDoors().getDoor(args[0]);
+                        door2 = DoorsPlugin.getInstance().getDoors().getDoor(args[1]);
+                    }
+                    catch(Doors.DoorWithThatNameDoesntExist exception){
+                        commandSender.sendMessage(exception.getMessage());
+                        return false;
+                    }
+
+                    if(door1.getName().equals(door2.getName()) == false)
+                        door1.combine(door2);
+                    else
+                    {
+                        commandSender.sendMessage("Cannot combine doors with themselves!");
+                        return false;
+                    }
+                    commandSender.sendMessage("Doors \""+door1.getName()+
+                            "\" and \""+door2.getName()+"\" combined!");
+                    return true;
+                }
+        ));
+
+
+
         return executor;
     }
 }
