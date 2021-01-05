@@ -22,10 +22,16 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     private static DoorsPlugin instance;
     public static DoorsPlugin getInstance() { return instance; }
 
+    @Override
     public void onEnable(){
         instance = this;
         getCommand("dtp").setExecutor(Cli.createMainCommand());
         Bukkit.getPluginManager().registerEvents(this, this);
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 
     @EventHandler
@@ -50,6 +56,11 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
         else{
             player.sendMessage("Doors doesn't go anywhere!");
         }
+    }
+
+    //For bukkit
+    public DoorsPlugin(){
+
     }
 
     //Constuctor for MockBukkit

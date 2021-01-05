@@ -130,6 +130,7 @@ public class DoorsPluginTest {
         rightClick(fLoc(1));
         assertEquals("Doors doesn't go anywhere!", player.nextMessage());
     }
+
     @Test
     public void createTwoDoorsCombineThemAndClickOnFirstOnes(){
         Location firstDoor = new Location(world, -200, 5, 0);
@@ -141,7 +142,7 @@ public class DoorsPluginTest {
         createDoor("door2", secondDoor);
 
         player.performCommand("dtp combine door1 door2");
-        assertEquals("Doors \"door1\" and \"door2\" combined!", player.nextMessage());
+        assertEquals("Doors \"door1\" ---> \"door2\" combined!", player.nextMessage());
 
         //We click first doors
         rightClick(firstDoor);
@@ -166,9 +167,8 @@ public class DoorsPluginTest {
         clearPlayerMessages();
 
         player.performCommand("dtp combine no yes");
-        assertEquals("Doors \"no\" and \"yes\" combined!", player.nextMessage());
+        assertEquals("Doors \"no\" ---> \"yes\" combined!", player.nextMessage());
     }
-
 
     private void rightClick(Location location){
         Block block = world.getBlockAt(location);

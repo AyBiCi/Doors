@@ -109,7 +109,7 @@ public class Cli {
                         return false;
                     }
                     commandSender.sendMessage("Doors \""+door1.getName()+
-                            "\" and \""+door2.getName()+"\" combined!");
+                            "\" ---> \""+door2.getName()+"\" combined!");
                     return true;
                 }
         ));
