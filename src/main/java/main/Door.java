@@ -1,6 +1,9 @@
 package main;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.BlockGrowEvent;
 
 public class Door implements Comparable<Door>{
     private final String name;
@@ -9,7 +12,15 @@ public class Door implements Comparable<Door>{
 
     public Door(String name, Location location) {
         this.name = name;
-        this.location = location;
+        BlockFace facing;
+        try {
+            Block b = location.clone().add(0, 1, 0).getBlock();
+        }
+        catch(Exception exception){
+            facing = BlockFace.NORTH;
+        }
+
+        this.location = LocationSchematizer.schematize(location, facing);
     }
 
     public String getName() {
