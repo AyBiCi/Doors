@@ -1,5 +1,5 @@
 name: DoorTeleport
-main: main.DoorsPlugin
+main: DoorsPlugin
 version: 1.15.2
 api-version: 1.15
 commands:

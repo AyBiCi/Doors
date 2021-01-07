@@ -1,5 +1,6 @@
-package main;
-
+import containers.Door;
+import containers.DoorCombiner;
+import containers.Doors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +20,7 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     private final Doors doors = new Doors();
     public Doors getDoors() { return doors; }
 
-    private final DoorCombiner doorCombiner = new DoorCombiner();
+    private final DoorCombiner doorCombiner = new DoorCombiner(doors);
     public DoorCombiner getDoorCombiner(){
         return doorCombiner;
     }
@@ -32,7 +33,7 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable(){
         instance = this;
-        getCommand("dtp").setExecutor(Cli.createMainCommand());
+        getCommand("dtp").setExecutor(CLI.createMainCommand());
         Bukkit.getPluginManager().registerEvents(this, this);
     }
 
@@ -47,6 +48,7 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
         && event.getClickedBlock().getType().equals(Material.IRON_DOOR))
             onPlayerDoorsClick(event.getPlayer(),event.getClickedBlock().getLocation());
     }
+
     public void onPlayerDoorsClick(Player player, Location doorLocation){
         Door door;
         try {
@@ -65,12 +67,10 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
         }
     }
 
-    //For bukkit
-    public DoorsPlugin(){
+    //For Bukkit
+    public DoorsPlugin(){ }
 
-    }
-
-    //Constuctor for MockBukkit
+    //For MockBukkit
     protected DoorsPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
     {
         super(loader, description, dataFolder, file);

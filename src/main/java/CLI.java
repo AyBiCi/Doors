@@ -1,11 +1,11 @@
-package main;
-
 import com.github.aybici.Subcommand;
 import com.github.aybici.SubcommandExecutor;
+import containers.Door;
+import containers.Doors;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class Cli {
+public class CLI {
     public static SubcommandExecutor createMainCommand(){
         SubcommandExecutor executor = new SubcommandExecutor("dtp");
 

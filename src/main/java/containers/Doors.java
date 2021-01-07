@@ -1,4 +1,4 @@
-package main;
+package containers;
 
 import org.bukkit.Location;
 import org.bukkit.util.Vector;

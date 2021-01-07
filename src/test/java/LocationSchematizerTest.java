@@ -1,4 +1,4 @@
-import main.LocationSchematizer;
+import utils.LocationSchematizer;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.junit.jupiter.api.Test;
