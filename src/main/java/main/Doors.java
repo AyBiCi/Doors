@@ -11,6 +11,7 @@ public class Doors {
 
     public final HashMap<String, Door> doorsByName;
     public final HashMap<String, Door> doorsByLocationString = new HashMap<>();
+
     public Doors(){
         doorsByName = new HashMap<>();
     }

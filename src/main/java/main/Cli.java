@@ -102,7 +102,8 @@ public class Cli {
                     }
 
                     if(door1.getName().equals(door2.getName()) == false)
-                        door1.combine(door2);
+                        DoorsPlugin.getInstance().getDoorCombiner().combineDoors(door1, door2);
+
                     else
                     {
                         commandSender.sendMessage("Cannot combine doors with themselves!");

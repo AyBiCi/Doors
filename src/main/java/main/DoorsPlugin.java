@@ -19,8 +19,15 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     private final Doors doors = new Doors();
     public Doors getDoors() { return doors; }
 
+    private final DoorCombiner doorCombiner = new DoorCombiner();
+    public DoorCombiner getDoorCombiner(){
+        return doorCombiner;
+    }
+
     private static DoorsPlugin instance;
     public static DoorsPlugin getInstance() { return instance; }
+
+
 
     @Override
     public void onEnable(){
@@ -50,10 +57,10 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
             return;
         }
 
-        if(door.isPassable()){
-            player.teleport(door.getEndLocation());
+        try{
+            player.teleport(DoorsPlugin.getInstance().getDoorCombiner().getCombinedDoor(door).getLocation());
         }
-        else{
+        catch(NullPointerException ex){
             player.sendMessage("Doors doesn't go anywhere!");
         }
     }
