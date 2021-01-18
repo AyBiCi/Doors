@@ -59,6 +59,10 @@ public class Doors {
         return location.getWorld().getName()+"|"+location.getBlockX()+"|"+location.getBlockY()+"|"+location.getBlockZ();
     }
 
+    public void combineDoors(Door door1, Door door2) {
+        door1.combineTo(door2.getName());
+    }
+
     public static class DoorWithThatNameAlreadyExists extends RuntimeException{
         final private String doorName;
 

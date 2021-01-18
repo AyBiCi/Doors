@@ -102,7 +102,7 @@ public class CLI {
                     }
 
                     if(door1.getName().equals(door2.getName()) == false)
-                        DoorsPlugin.getInstance().getDoorCombiner().combineDoors(door1, door2);
+                        DoorsPlugin.getInstance().getDoors().combineDoors(door1, door2);
 
                     else
                     {

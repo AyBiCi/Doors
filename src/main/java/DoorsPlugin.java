@@ -1,5 +1,4 @@
 import containers.Door;
-import containers.DoorCombiner;
 import containers.Doors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,15 +19,8 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     private final Doors doors = new Doors();
     public Doors getDoors() { return doors; }
 
-    private final DoorCombiner doorCombiner = new DoorCombiner(doors);
-    public DoorCombiner getDoorCombiner(){
-        return doorCombiner;
-    }
-
     private static DoorsPlugin instance;
     public static DoorsPlugin getInstance() { return instance; }
-
-
 
     @Override
     public void onEnable(){
@@ -60,9 +52,9 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
         }
 
         try{
-            player.teleport(DoorsPlugin.getInstance().getDoorCombiner().getCombinedDoor(door).getLocation());
+            player.teleport(getDoors().getDoor(door.getCombinedDoorName()).getLocation());
         }
-        catch(NullPointerException ex){
+        catch(Doors.DoorWithThatNameDoesntExist ex){
             player.sendMessage("Doors doesn't go anywhere!");
         }
     }
