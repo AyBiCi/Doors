@@ -115,6 +115,18 @@ public class CLI {
                 }
         ));
 
+        executor.addCommandExecutor(new Subcommand(
+                "save",
+                "",
+                "save all doors",
+                (commandSender, command, s, args) -> {
+                    DoorsPlugin.getInstance().getSaver().saveAllDoors(DoorsPlugin.getInstance().getDoors());
+                    commandSender.sendMessage("All doors saved!");
+                    return true;
+                }
+        ));
+
+
 
 
         return executor;

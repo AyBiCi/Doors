@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
+import saving.DoorsToFilesSaver;
 
 import java.io.File;
 
@@ -22,16 +23,24 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     private static DoorsPlugin instance;
     public static DoorsPlugin getInstance() { return instance; }
 
+    private static DoorsToFilesSaver saver =
+            new DoorsToFilesSaver("."+File.separator+"plugins"+
+                    File.separator+"DoorTeleport");
+
+    public static DoorsToFilesSaver getSaver(){
+        return saver;
+    }
+
     @Override
     public void onEnable(){
         instance = this;
         getCommand("dtp").setExecutor(CLI.createMainCommand());
         Bukkit.getPluginManager().registerEvents(this, this);
+        saver.feedDoors(doors);
     }
 
     @Override
     public void onDisable() {
-
     }
 
     @EventHandler
@@ -66,5 +75,9 @@ public class DoorsPlugin extends JavaPlugin implements Listener {
     protected DoorsPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
     {
         super(loader, description, dataFolder, file);
+    }
+
+    public void removeSaves() {
+        saver.removeAllSaves();
     }
 }

@@ -32,6 +32,7 @@ public class DoorsPluginTest {
         MockBukkit.load(DoorsPlugin.class);
         world = server.addSimpleWorld("world");
         player = server.addPlayer();
+        ((DoorsPlugin) server.getPluginManager().getPlugin("DoorTeleport")).removeSaves();
     }
     @AfterEach
     public void tearDown()
@@ -65,6 +66,8 @@ public class DoorsPluginTest {
         removeDoor("newDoor2");
 
         assertEquals(1,getDoorCount());
+
+        System.out.println(((DoorsPlugin) server.getPluginManager().getPlugin("DoorTeleport")).getDoors().getDoor("newDoor3").getLocation().getWorld().getName());
     }
 
     @Test

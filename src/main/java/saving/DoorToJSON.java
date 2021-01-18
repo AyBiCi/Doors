@@ -16,12 +16,11 @@ public class DoorToJSON {
         json.put("yaw", door.getLocation().getYaw());
         json.put("pitch", door.getLocation().getPitch());
 
-        if(door.getLocation().getWorld() !=  null)
+        if(door.getLocation().getWorld() != null)
             json.put("world", door.getLocation().getWorld().getName());
-        else
-            json.put("world", "");
 
-        json.put("combinedTo", door.getCombinedDoorName());
+        if(door.getCombinedDoorName() !=  null)
+            json.put("combinedTo", door.getCombinedDoorName());
 
         return json.toJSONString();
     }
@@ -30,9 +29,9 @@ public class DoorToJSON {
         JSONObject json = (JSONObject) JSONValue.parse(jsonString);
 
         Location location = new Location(
-                ((json.get("world")).equals("") ?
-                        null :
-                        Bukkit.getWorld( (String) json.get("world") )
+                ((json.get("world")) != null ?
+                        Bukkit.getWorld( (String) json.get("world") ) :
+                        null
                 ),
                 (Double) json.get("X"),
                 (Double) json.get("Y"),
@@ -42,7 +41,10 @@ public class DoorToJSON {
         );
 
         Door door = new Door((String) json.get("name"),location);
-        door.combineTo((String) json.get("combineTo"));
+        door.combineTo((json.get("combinedTo")) != null ?
+                (String) json.get("combinedTo") :
+                null
+        );
 
         return door;
     }
