@@ -1,6 +1,8 @@
-<b> The plugin is not ready yet! </b>
 # Doors
 Bukkit plugin for teleportable doors.
+
+# Warning!
+Plugin has no autosave. Use command /dtp save to save setted doors.
 
 # How does it work?
 Imagine you need a door, that teleports a player to some other doors - that's what this plugin does.
